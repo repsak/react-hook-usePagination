@@ -17,13 +17,20 @@ export default usePagination
  *  onPageClickPropName: string,
  *  leftChar: string,
  *  rightChar: string
- * }} opts конфигурируемые свойства:
- * @returns {[]}
+ * }} opts конфигурируемые свойства
+ * @returns {{[p: string]: *|(function(): void)|(function(): void)|(function(): void), children: *}[]|*[]}
  */
 function usePagination(
   totalPages,
   currentPage,
-  opts
+  opts = {
+    pageNeighbours: 2,
+    onPageClick: console.log,
+    onPageClickPropName: 'onClick',
+    onCurrentActivePropName: 'active',
+    leftChar: '<<',
+    rightChar: '>>'
+  }
 ) {
   // пагинация для одной страницы не нужна
   if(totalPages === 1) {
@@ -31,12 +38,12 @@ function usePagination(
   }
 
   const {
-    pageNeighbours = 2,
-    onPageClick = console.log,
-    onPageClickPropName = 'onClick',
+    pageNeighbours,
+    onPageClick,
+    onPageClickPropName,
 
-    leftChar = '<<',
-    rightChar = '>>'
+    leftChar,
+    rightChar
   } = opts
 
   let resultPaginationPages = []
@@ -75,7 +82,7 @@ function usePagination(
       pages = [leftChar, ...pages, rightChar]
     }
 
-    resultPaginationPages = [1, ...pages, totalPages].map(callbacking(onPageClick, leftChar, rightChar))
+    resultPaginationPages = [1, ...pages, totalPages]
   } else {
     resultPaginationPages = range(1, totalPages)
   }
@@ -83,9 +90,9 @@ function usePagination(
   return resultPaginationPages.map(item => ({
     children: item,
     [onPageClickPropName]: item === leftChar
-      ? onPageClick(getMoveLeftPage(currentPage, pageNeighbours))
+      ? () => onPageClick(getMoveLeftPage(currentPage, pageNeighbours))
       : item === rightChar
-        ? onPageClick(getMoveRightPage(currentPage, pageNeighbours))
-        : onPageClick(item)
+        ? () => onPageClick(getMoveRightPage(currentPage, pageNeighbours))
+        : () => onPageClick(item)
   }))
 }
