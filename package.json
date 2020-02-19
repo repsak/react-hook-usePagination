@@ -1,6 +1,6 @@
 {
   "name": "@rylovnikita/react-hook-pagination",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React hook usePagination",
   "main": "dest/index.min.js",
   "files": [
