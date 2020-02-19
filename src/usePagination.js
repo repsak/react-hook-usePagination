@@ -1,6 +1,7 @@
 import range from './range'
 import getMoveLeftPage from './getMoveLeftPage'
 import getMoveRightPage from './getMoveRightPage'
+import defaultOpts from './defaultOpts'
 
 /**
  * Экспорт
@@ -23,14 +24,7 @@ export default usePagination
 function usePagination(
   totalPages,
   currentPage,
-  opts = {
-    pageNeighbours: 2,
-    onPageClick: console.log,
-    onPageClickPropName: 'onClick',
-    onCurrentActivePropName: 'active',
-    leftChar: '<<',
-    rightChar: '>>'
-  }
+  opts
 ) {
   // пагинация для одной страницы не нужна
   if (totalPages === 1) {
@@ -44,7 +38,7 @@ function usePagination(
 
     leftChar,
     rightChar
-  } = opts
+  } = {...defaultOpts, ...opts}
 
   let resultPaginationPages = []
 
