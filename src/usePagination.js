@@ -11,28 +11,33 @@ export default usePagination
  * Хук пагинации
  * @param {number} totalPages количество страниц
  * @param {number} currentPage текущая страница
- * @param {number} pageNeighbours количество "соседей", по умолчанию 2
- * @param {function} onPageClick колбэк
- * @param {string} onPageClickPropName имя свойства компонента, на которое вешается событие
- * @param {string} leftChar элемент перемотки влево
- * @param {string} rightChar элемент перемотки вправо
+ * @param {{
+ *  pageNeighbours: number,
+ *  onPageClick: function,
+ *  onPageClickPropName: string,
+ *  leftChar: string,
+ *  rightChar: string
+ * }} opts конфигурируемые свойства:
  * @returns {[]}
  */
 function usePagination(
   totalPages,
   currentPage,
-  pageNeighbours,
-  onPageClick,
-  onPageClickPropName = 'onClick',
-
-  leftChar = '<<',
-  rightChar = '>>'
+  opts
 ) {
-
   // пагинация для одной страницы не нужна
   if(totalPages === 1) {
     return []
   }
+
+  const {
+    pageNeighbours = 2,
+    onPageClick = console.log,
+    onPageClickPropName = 'onClick',
+
+    leftChar = '<<',
+    rightChar = '>>'
+  } = opts
 
   let resultPaginationPages = []
 
