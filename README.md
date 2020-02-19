@@ -39,7 +39,7 @@ function App(props) {
 }
 ```
 
-### Переопределение свойств
+#### Переопределение свойств
 ```javascript
 const pages = usePagination(25, 10, {
   pageNeighbours: 5,
