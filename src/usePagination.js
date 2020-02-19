@@ -33,7 +33,7 @@ function usePagination(
   }
 ) {
   // пагинация для одной страницы не нужна
-  if(totalPages === 1) {
+  if (totalPages === 1) {
     return []
   }
 
@@ -55,7 +55,7 @@ function usePagination(
   // к кол-ву отображаемых добавляются управляющие элементы [назад(<)] && [вперед(>)]
   const totalBlocks = totalNumbers + 2
 
-  if(totalPages > totalBlocks) {
+  if (totalPages > totalBlocks) {
     const startPage = Math.max(2, currentPage - pageNeighbours)
     const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours)
 
@@ -63,22 +63,22 @@ function usePagination(
 
     const hasLeftSpill = startPage > 2
     const hasRightSpill = (totalPages - endPage) > 1
-    const spillOffset = totalNumbers - (pages.length +1)
+    const spillOffset = totalNumbers - (pages.length + 1)
 
     // (1) < {5 6} [7] {8 9} (10)
-    if(hasLeftSpill && !hasRightSpill) {
+    if (hasLeftSpill && !hasRightSpill) {
       const extraPages = range(startPage - spillOffset, startPage - 1)
       pages = [leftChar, ...extraPages, ...pages]
     }
 
     // (1) {2 3} [4] {5 6} > (10)
-    if(!hasLeftSpill && hasRightSpill) {
+    if (!hasLeftSpill && hasRightSpill) {
       const extraPages = range(endPage + 1, endPage + spillOffset)
       pages = [...pages, ...extraPages, rightChar]
     }
 
     // (1) < {4 5} [6] {7 8} > (10)
-    if(hasLeftSpill && hasRightSpill) {
+    if (hasLeftSpill && hasRightSpill) {
       pages = [leftChar, ...pages, rightChar]
     }
 
@@ -87,12 +87,16 @@ function usePagination(
     resultPaginationPages = range(1, totalPages)
   }
 
-  return resultPaginationPages.map(item => ({
-    children: item,
-    [onPageClickPropName]: item === leftChar
-      ? () => onPageClick(getMoveLeftPage(currentPage, pageNeighbours))
+  return resultPaginationPages.map(item => {
+    const arg = item === leftChar
+      ? getMoveLeftPage(currentPage, pageNeighbours)
       : item === rightChar
-        ? () => onPageClick(getMoveRightPage(currentPage, pageNeighbours))
-        : () => onPageClick(item)
-  }))
+        ? getMoveRightPage(currentPage, pageNeighbours)
+        : item
+
+    return {
+      children: item,
+      [onPageClickPropName]: () => onPageClick(arg)
+    }
+  })
 }
