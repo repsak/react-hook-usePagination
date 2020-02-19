@@ -1,0 +1,25 @@
+{
+  "name": "@rylovnikita/react-hook-usePagination",
+  "version": "1.0.0",
+  "description": "React hook usePagination",
+  "main": "dest/index.min.js",
+  "files": [
+    "dest"
+  ],
+  "repository": "https://github.com/repsak/react-hook-usePagination.git",
+  "author": "Nikita Rylov <repsakovich@gmail.com>",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "fs-extra": "^8.1.0",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  },
+  "scripts": {
+    "postpublish":"node ./publish/postpublish.js",
+    "rollup": "./node_modules/.bin/rollup -c --compact && node ./publish/prepublish.js"
+  }
+}
