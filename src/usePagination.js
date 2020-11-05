@@ -90,7 +90,15 @@ function usePagination(
 
     return {
       children: item,
-      [onPageClickPropName]: () => onPageClick(arg)
+      [onPageClickPropName]: (e) => {
+        const callback = onPageClick(e)
+
+        if(typeof callback === 'function') {
+          return callback(arg)
+        }
+
+        return arg
+      }
     }
   })
 }
